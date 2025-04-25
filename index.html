@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vue Todo List</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuedraggable@2.24.3/dist/vuedraggable.umd.min.js"></script>
+</head>
+<body>
+  <div id="app" class="container">
+    <h1>📝 Vue Todo List</h1>
+
+    <div class="input-container">
+      <input
+        type="text"
+        v-model="newTodo"
+        placeholder="Type something and press ENTER"
+        @keyup.enter="addTodo"
+      />
+      <button @click="addTodo">Add</button>
+    </div>
+
+    <section class="list-section">
+      <h2>📋 To do: ({{ incompleteTodos.length }})</h2>
+      <draggable v-model="incompleteTodos" :group="'todos'" tag="ul" class="todo-list">
+        <li v-for="todo in incompleteTodos" :key="todo.id">
+          <label>
+            <input type="checkbox" v-model="todo.done" />
+            <span>{{ todo.text }}</span>
+            <a href="#" class="remove" @click.prevent="removeTodo(todo)">✖</a>
+          </label>
+        </li>
+      </draggable>
+    </section>
+
+    <section class="list-section">
+      <h2>✅ Completed items: ({{ completedTodos.length }})</h2>
+      <draggable v-model="completedTodos" :group="'todos'" tag="ul" class="todo-list completed">
+        <li v-for="todo in completedTodos" :key="todo.id">
+          <label>
+            <input type="checkbox" v-model="todo.done" />
+            <span><del>{{ todo.text }}</del></span>
+            <a href="#" class="remove" @click.prevent="removeTodo(todo)">✖</a>
+          </label>
+        </li>
+      </draggable>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
